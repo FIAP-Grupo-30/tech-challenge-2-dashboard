@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   BYTEBANK DESIGN SYSTEM - FASE 2
+   Design Tokens preservados da Fase 1
+   ========================================== */
+
+:root {
+  --bytebank-green: #47A138;
+  --bytebank-green-dark: #3a8a2e;
+  --bytebank-green-light: #59b449;
+  --bytebank-black: #000000;
+  --bytebank-gray: #CCCCCC;
+  --bytebank-gray-light: #e4e1e1;
+  --bytebank-gray-medium: #666666;
+}
+
+/* Botões ByteBank - Preservados da Fase 1 */
+@layer components {
+  .btn-bytebank-primary {
+    @apply inline-flex justify-center items-center h-11 text-center rounded-lg
+           bg-[#47A138] hover:bg-white min-w-[180px] text-base font-semibold
+           text-white hover:text-[#47A138] transition duration-300 
+           border-2 border-[#47A138] px-6;
+  }
+
+  .btn-bytebank-secondary {
+    @apply inline-flex justify-center items-center h-11 text-center rounded-lg
+           bg-transparent hover:bg-[#47A138] border-[3px] border-[#47A138]
+           min-w-[180px] text-[#47A138] hover:text-white text-base font-semibold
+           transition duration-300 px-6;
+  }
+
+  .btn-bytebank-dark {
+    @apply inline-flex justify-center items-center h-14 text-center rounded-lg
+           bg-black hover:bg-transparent border-[3px] border-black w-full
+           font-semibold text-white text-lg hover:text-black transition duration-300;
+  }
+
+  .input-bytebank {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md
+           focus:outline-none focus:ring-2 focus:ring-[#47A138] focus:border-transparent;
+  }
+
+  .card-bytebank {
+    @apply bg-[#CCCCCC] p-7 rounded-xl;
+  }
+
+  .card-bytebank-white {
+    @apply bg-white p-4 rounded-lg shadow-sm;
+  }
+
+  .menu-link {
+    @apply text-lg font-medium text-[#666666] hover:bg-[#e4e1e1] p-1.5
+           transition duration-200 rounded;
+  }
+
+  .transaction-item {
+    @apply flex items-center gap-4 p-4 bg-white rounded-lg
+           border-l-4 transition-all hover:shadow-md;
+  }
+
+  .transaction-item-credit {
+    @apply border-l-green-500;
+  }
+
+  .transaction-item-debit {
+    @apply border-l-red-500;
+  }
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+.animate-slideUp { animation: slideUp 0.3s ease-out; }
+.animate-spin { animation: spin 1s linear infinite; }
