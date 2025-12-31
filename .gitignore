@@ -1,0 +1,15 @@
+# tech-challenge-2-dashboard .gitignore
+node_modules/
+dist/
+build/
+.vite/
+.env
+npm-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+*.iml
+
+# macOS
+.DS_Store
