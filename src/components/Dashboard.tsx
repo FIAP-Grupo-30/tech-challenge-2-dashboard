@@ -105,22 +105,22 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <main className="mx-auto">
         {/* Saudação */}
-        <div>
+        <div className='mb-8'>
           <h2 className="text-2xl font-semibold text-black">Olá, {userName}! 👋</h2>
           <p className="text-gray-600">Aqui está o resumo das suas finanças</p>
         </div>
 
         {/* Cards de resumo */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {[
             { label: 'Receitas', value: summary.income, icon: '📈', color: 'text-green-600', bg: 'bg-green-50' },
             { label: 'Despesas', value: summary.expenses, icon: '📉', color: 'text-red-600', bg: 'bg-red-50' },
             { label: 'Saldo', value: summary.balance, icon: '💰', color: summary.balance >= 0 ? 'text-blue-600' : 'text-orange-600', bg: 'bg-blue-50' },
             { label: 'Transações', value: summary.count, icon: '📊', color: 'text-purple-600', bg: 'bg-purple-50', isCurrency: false },
           ].map((card) => (
-            <div key={card.label} className="bg-white rounded-xl p-5 shadow-sm">
+            <div key={card.label} className="bg-white rounded-[5px] border border-solid border-[#ccc] p-4 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className={`w-12 h-12 ${card.bg} rounded-lg flex items-center justify-center text-xl`}>{card.icon}</div>
                 <div>
@@ -135,10 +135,10 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Gráficos */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-8 mb-10">
           {/* Evolução */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-black mb-4">Evolução Financeira</h3>
+          <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+            <h3 className="text-[20px] font-semibold text-black mb-8">Evolução Financeira</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData}>
                 <defs>
@@ -163,8 +163,8 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Categorias */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-black mb-4">Despesas por Categoria</h3>
+          <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+            <h3 className="text-[20px] font-semibold text-black mb-8">Despesas por Categoria</h3>
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="w-full lg:w-1/2">
                 <ResponsiveContainer width="100%" height={250}>
@@ -190,8 +190,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Comparativo mensal */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-black mb-4">Comparativo Mensal</h3>
+        <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+          <h3 className="text-[20px] font-semibold text-black mb-8">Comparativo Mensal</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
