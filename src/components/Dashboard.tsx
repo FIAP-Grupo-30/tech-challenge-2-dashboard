@@ -104,7 +104,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <main className="mx-auto">
         {/* Saudação */}
         <div className='mb-8'>
@@ -137,7 +137,7 @@ const Dashboard: React.FC = () => {
         {/* Gráficos */}
         <div className="grid lg:grid-cols-2 gap-8 mb-10">
           {/* Evolução */}
-          <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+          <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
             <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Evolução Financeira</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData}>
@@ -163,7 +163,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Categorias */}
-          <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+          <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
             <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Despesas por Categoria</h3>
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="w-full lg:w-1/2">
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Comparativo mensal */}
-        <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
+        <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
           <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Comparativo Mensal</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
