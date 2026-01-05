@@ -138,7 +138,7 @@ const Dashboard: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-8 mb-10">
           {/* Evolução */}
           <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
-            <h3 className="text-[20px] font-semibold text-black mb-8">Evolução Financeira</h3>
+            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Evolução Financeira</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData}>
                 <defs>
@@ -164,7 +164,7 @@ const Dashboard: React.FC = () => {
 
           {/* Categorias */}
           <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
-            <h3 className="text-[20px] font-semibold text-black mb-8">Despesas por Categoria</h3>
+            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Despesas por Categoria</h3>
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="w-full lg:w-1/2">
                 <ResponsiveContainer width="100%" height={250}>
@@ -191,7 +191,7 @@ const Dashboard: React.FC = () => {
 
         {/* Comparativo mensal */}
         <div className="rounded-[5px] border border-solid border-[#ccc] p-6">
-          <h3 className="text-[20px] font-semibold text-black mb-8">Comparativo Mensal</h3>
+          <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Comparativo Mensal</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
