@@ -1,3 +1,29 @@
+# ByteBank - Dashboard (Microfrontend)
+
+Responsabilidade
+- Exibir visão geral das contas do usuário: saldo, gráficos e indicadores.
+- Fornecer navegação rápida para seções como transações e extratos.
+
+Pontos importantes após ajustes recentes
+- O `dashboard` usa `@bytebank/shared` para utilitários comuns (ex.: domElementGetter) e consome `window.__BYTEBANK_API_BASE__` para chamadas ao backend.
+- Evitar estilos `min-h-screen` neste MFE para não quebrar o layout do shell.
+
+Como executar
+```bash
+cd tech-challenge-2-dashboard
+npm install
+npm run dev
+```
+
+Build e Preview
+```bash
+npm run build
+npm run preview -- --port 9003
+```
+
+Arquivos relevantes
+- `src/bytebank-dashboard.tsx` - entry single-spa e domElementGetter
+- `src/components/Dashboard.tsx` - componente principal
 # Dashboard - Visão Geral ByteBank
 
 ## 📋 Visão Geral
@@ -87,13 +113,15 @@ import Dashboard from './components/Dashboard';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       <Dashboard />
     </div>
   );
 };
 
 export default App;
+
+> Observação: o shell (`@bytebank/base`) controla o layout global incluindo altura total da tela. Evite usar `min-h-screen` no MFE para não sobrescrever o comportamento do host.
 ```
 
 ### Dashboard Component - `components/Dashboard.tsx`

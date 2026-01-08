@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 9003",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bytebank/shared": "git+https://github.com/FIAP-Grupo-30/shared.git",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recharts": "^2.12.0",

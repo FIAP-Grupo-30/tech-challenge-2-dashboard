@@ -31,14 +31,15 @@ const Dashboard: React.FC = () => {
           setUserName(payload.username || 'Usuário');
         } catch {}
 
-        const accRes = await fetch('http://localhost:3000/account', {
+        const apiBase = (window as any).__BYTEBANK_API_BASE__ || 'http://localhost:3000';
+        const accRes = await fetch(`${apiBase}/account`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const accData = await accRes.json();
         const accId = accData.result?.account?.[0]?.id;
 
         if (accId) {
-          const stmtRes = await fetch(`http://localhost:3000/account/${accId}/statement`, {
+          const stmtRes = await fetch(`${apiBase}/account/${accId}/statement`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const stmtData = await stmtRes.json();
@@ -97,14 +98,14 @@ const Dashboard: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-gray-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#47A138]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div>
       <main className="mx-auto">
         {/* Saudação */}
         <div className='mb-8'>
