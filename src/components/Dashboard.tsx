@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
           setUserName(payload.username || 'Usuário');
         } catch {}
 
-        const apiBase = (window as any).__BYTEBANK_API_BASE__ || 'http://localhost:3000';
+        const apiBase = (window as any).__BYTEBANK_API_BASE__ || 'https://tech-challenge-2-production.up.railway.app';
         const accRes = await fetch(`${apiBase}/account`, {
           headers: { Authorization: `Bearer ${token}` },
         });
