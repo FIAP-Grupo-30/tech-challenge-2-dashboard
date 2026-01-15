@@ -29,7 +29,8 @@
     "@vitejs/plugin-react": "^5.1.2",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "zod": "^4.3.5"
   },
   "author": "FIAP Grupo 30",
   "license": "MIT"
