@@ -1,8 +1,21 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import type React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, BarChart, Bar, Legend
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
+import { ENV } from '../config/env';
 
 interface Transaction {
   id: string;
@@ -12,7 +25,16 @@ interface Transaction {
   category?: string;
 }
 
-const COLORS = ['#47A138', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#F39C12'];
+const COLORS = [
+  '#47A138',
+  '#FF6B6B',
+  '#4ECDC4',
+  '#45B7D1',
+  '#96CEB4',
+  '#FFEAA7',
+  '#DDA0DD',
+  '#F39C12',
+];
 
 const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -23,7 +45,10 @@ const Dashboard: React.FC = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('bytebank_token');
-        if (!token) { setIsLoading(false); return; }
+        if (!token) {
+          setIsLoading(false);
+          return;
+        }
 
         // Decode username from token
         try {
@@ -31,7 +56,7 @@ const Dashboard: React.FC = () => {
           setUserName(payload.username || 'Usuário');
         } catch {}
 
-        const apiBase = (window as any).__BYTEBANK_API_BASE__ || 'https://tech-challenge-2-production.up.railway.app';
+        const apiBase = ENV.API_BASE_URL;
         const accRes = await fetch(`${apiBase}/account`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -59,13 +84,16 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const summary = useMemo(() => {
-    return transactions.reduce((acc, t) => {
-      if (t.value > 0) acc.income += t.value;
-      else acc.expenses += Math.abs(t.value);
-      acc.count++;
-      acc.balance = acc.income - acc.expenses;
-      return acc;
-    }, { income: 0, expenses: 0, balance: 0, count: 0 });
+    return transactions.reduce(
+      (acc, t) => {
+        if (t.value > 0) acc.income += t.value;
+        else acc.expenses += Math.abs(t.value);
+        acc.count++;
+        acc.balance = acc.income - acc.expenses;
+        return acc;
+      },
+      { income: 0, expenses: 0, balance: 0, count: 0 }
+    );
   }, [transactions]);
 
   const chartData = useMemo(() => {
@@ -87,14 +115,19 @@ const Dashboard: React.FC = () => {
 
   const categoryData = useMemo(() => {
     const cats: Record<string, number> = {};
-    transactions.filter((t) => t.value < 0).forEach((t) => {
-      const cat = t.category || 'outros';
-      cats[cat] = (cats[cat] || 0) + Math.abs(t.value);
-    });
-    return Object.entries(cats).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
+    transactions
+      .filter((t) => t.value < 0)
+      .forEach((t) => {
+        const cat = t.category || 'outros';
+        cats[cat] = (cats[cat] || 0) + Math.abs(t.value);
+      });
+    return Object.entries(cats)
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value);
   }, [transactions]);
 
-  const formatCurrency = (v: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+  const formatCurrency = (v: number) =>
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
 
   if (isLoading) {
     return (
@@ -108,7 +141,7 @@ const Dashboard: React.FC = () => {
     <div>
       <main className="mx-auto">
         {/* Saudação */}
-        <div className='mb-8'>
+        <div className="mb-8">
           <h2 className="text-2xl font-semibold text-black">Olá, {userName}! 👋</h2>
           <p className="text-gray-600">Aqui está o resumo das suas finanças</p>
         </div>
@@ -116,14 +149,46 @@ const Dashboard: React.FC = () => {
         {/* Cards de resumo */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {[
-            { label: 'Receitas', value: summary.income, icon: '📈', color: 'text-green-600', bg: 'bg-green-50' },
-            { label: 'Despesas', value: summary.expenses, icon: '📉', color: 'text-red-600', bg: 'bg-red-50' },
-            { label: 'Saldo', value: summary.balance, icon: '💰', color: summary.balance >= 0 ? 'text-blue-600' : 'text-orange-600', bg: 'bg-blue-50' },
-            { label: 'Transações', value: summary.count, icon: '📊', color: 'text-purple-600', bg: 'bg-purple-50', isCurrency: false },
+            {
+              label: 'Receitas',
+              value: summary.income,
+              icon: '📈',
+              color: 'text-green-600',
+              bg: 'bg-green-50',
+            },
+            {
+              label: 'Despesas',
+              value: summary.expenses,
+              icon: '📉',
+              color: 'text-red-600',
+              bg: 'bg-red-50',
+            },
+            {
+              label: 'Saldo',
+              value: summary.balance,
+              icon: '💰',
+              color: summary.balance >= 0 ? 'text-blue-600' : 'text-orange-600',
+              bg: 'bg-blue-50',
+            },
+            {
+              label: 'Transações',
+              value: summary.count,
+              icon: '📊',
+              color: 'text-purple-600',
+              bg: 'bg-purple-50',
+              isCurrency: false,
+            },
           ].map((card) => (
-            <div key={card.label} className="bg-white rounded-[5px] border border-solid border-[#ccc] p-4 shadow-sm">
+            <div
+              key={card.label}
+              className="bg-white rounded-[5px] border border-solid border-[#ccc] p-4 shadow-sm"
+            >
               <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 ${card.bg} rounded-lg flex items-center justify-center text-xl`}>{card.icon}</div>
+                <div
+                  className={`w-12 h-12 ${card.bg} rounded-lg flex items-center justify-center text-xl`}
+                >
+                  {card.icon}
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">{card.label}</p>
                   <p className={`text-xl font-semibold ${card.color}`}>
@@ -139,7 +204,9 @@ const Dashboard: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-8 mb-10">
           {/* Evolução */}
           <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Evolução Financeira</h3>
+            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+              Evolução Financeira
+            </h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData}>
                 <defs>
@@ -154,24 +221,54 @@ const Dashboard: React.FC = () => {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#94a3b8" />
-                <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`} />
+                <YAxis
+                  tick={{ fontSize: 12 }}
+                  stroke="#94a3b8"
+                  tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`}
+                />
                 <Tooltip formatter={(value: number) => formatCurrency(value)} />
                 <Legend />
-                <Area type="monotone" dataKey="income" name="Receitas" stroke="#47A138" fill="url(#colorIncome)" strokeWidth={2} />
-                <Area type="monotone" dataKey="expenses" name="Despesas" stroke="#ef4444" fill="url(#colorExpenses)" strokeWidth={2} />
+                <Area
+                  type="monotone"
+                  dataKey="income"
+                  name="Receitas"
+                  stroke="#47A138"
+                  fill="url(#colorIncome)"
+                  strokeWidth={2}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="expenses"
+                  name="Despesas"
+                  stroke="#ef4444"
+                  fill="url(#colorExpenses)"
+                  strokeWidth={2}
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
 
           {/* Categorias */}
           <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Despesas por Categoria</h3>
+            <h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+              Despesas por Categoria
+            </h3>
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="w-full lg:w-1/2">
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
-                    <Pie data={categoryData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value">
-                      {categoryData.map((_, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
+                    <Pie
+                      data={categoryData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {categoryData.map((item, index) => (
+                        <Cell key={item.name} fill={COLORS[index % COLORS.length]} />
+                      ))}
                     </Pie>
                     <Tooltip formatter={(value: number) => formatCurrency(value)} />
                   </PieChart>
@@ -180,7 +277,10 @@ const Dashboard: React.FC = () => {
               <div className="w-full lg:w-1/2 space-y-2">
                 {categoryData.slice(0, 5).map((item, i) => (
                   <div key={item.name} className="flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                    />
                     <span className="flex-1 text-sm text-gray-600 capitalize">{item.name}</span>
                     <span className="text-sm font-medium">{formatCurrency(item.value)}</span>
                   </div>
@@ -192,12 +292,18 @@ const Dashboard: React.FC = () => {
 
         {/* Comparativo mensal */}
         <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-          <h3 className="text-[20px] font-semibold text-black mb-8 text-center">Comparativo Mensal</h3>
+          <h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+            Comparativo Mensal
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#94a3b8" />
-              <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`} />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                stroke="#94a3b8"
+                tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`}
+              />
               <Tooltip formatter={(value: number) => formatCurrency(value)} />
               <Legend />
               <Bar dataKey="income" name="Receitas" fill="#47A138" radius={[4, 4, 0, 0]} />
