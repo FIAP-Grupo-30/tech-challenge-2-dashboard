@@ -3,6 +3,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, BarChart, Bar, Legend
 } from 'recharts';
+import { ENV } from '../config/env';
 
 interface Transaction {
   id: string;
@@ -31,7 +32,7 @@ const Dashboard: React.FC = () => {
           setUserName(payload.username || 'Usuário');
         } catch {}
 
-        const apiBase = (window as any).__BYTEBANK_API_BASE__ || 'https://tech-challenge-2-production.up.railway.app';
+        const apiBase = ENV.API_BASE_URL
         const accRes = await fetch(`${apiBase}/account`, {
           headers: { Authorization: `Bearer ${token}` },
         });
