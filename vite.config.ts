@@ -11,7 +11,7 @@ export default defineConfig({
       name: '@bytebank/dashboard',
       filename: 'remoteEntry.js',
       exposes: {
-        './bytebank-dashboard': './src/bytebank-dashboard.tsx',
+        './bytebank-dashboard': './src/exposes/bytebank-dashboard.tsx',
       },
       shared: ['react', 'react-dom', 'react-router-dom'],
     }),
