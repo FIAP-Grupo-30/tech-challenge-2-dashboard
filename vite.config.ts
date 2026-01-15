@@ -24,10 +24,8 @@ export default defineConfig({
   },
   server: {
     port: 9003,
-    cors: true,
   },
   preview: {
     port: 9003,
-    cors: true,
   },
 });
