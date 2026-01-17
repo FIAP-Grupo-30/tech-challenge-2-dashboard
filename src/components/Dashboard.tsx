@@ -201,7 +201,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Gráficos */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-10">
+        <div className="grid lg:grid-cols-1 gap-8 mb-10">
           {/* Evolução */}
           <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
             <h3 className="text-[20px] font-semibold text-black mb-8 text-center">
@@ -249,7 +249,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Categorias */}
-          <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
+          {/* <div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
             <h3 className="text-[20px] font-semibold text-black mb-8 text-center">
               Despesas por Categoria
             </h3>
@@ -287,7 +287,7 @@ const Dashboard: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Comparativo mensal */}
