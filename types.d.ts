@@ -15,18 +15,82 @@ declare module "@bytebank/financeiro/bytebank-financeiro" {
 
 declare module "@bytebank/root/bytebank-store" {
 	import type { StoreApi, UseBoundStore } from "zustand";
-	import type {
-		AccountState,
-		AuthRequest,
-		AuthState,
-		CreateTransactionRequest,
-		CreateUserRequest,
-		TransactionFilters,
-		TransactionState,
-		User,
-	} from "./src/model/types";
 
-	// Tipo Store completo baseado em RootState (AuthSlice & TransactionSlice & AccountSlice)
+	export interface User {
+		id: string;
+		username: string;
+		email: string;
+	}
+
+	export interface Account {
+		id: string;
+		type: "Debit" | "Credit";
+		userId: string;
+	}
+
+	export interface Transaction {
+		id: string;
+		accountId: string;
+		type: "Credit" | "Debit";
+		value: number;
+		date: string;
+		from?: string;
+		to?: string;
+		anexo?: string;
+		category?: string;
+		description?: string;
+	}
+
+	export interface AuthState {
+		user: User | null;
+		token: string | null;
+		isAuthenticated: boolean;
+		isLoading: boolean;
+		error: string | null;
+	}
+
+	export interface AccountState {
+		accounts: Account[];
+		selectedAccount: Account | null;
+		balance: number;
+		isLoading: boolean;
+		error: string | null;
+	}
+
+	export interface TransactionState {
+		transactions: Transaction[];
+		filteredTransactions: Transaction[];
+		isLoading: boolean;
+		error: string | null;
+		filters: any;
+		pagination: {
+			page: number;
+			pageSize: number;
+			totalItems: number;
+			totalPages: number;
+		};
+	}
+
+	export interface CreateTransactionRequest {
+		accountId: string;
+		type: "Credit" | "Debit";
+		value: number;
+		from?: string;
+		to?: string;
+		anexo?: string;
+	}
+
+	export interface AuthRequest {
+		email: string;
+		password: string;
+	}
+
+	export interface CreateUserRequest {
+		username: string;
+		email: string;
+		password: string;
+	}
+
 	export type Store = {
 		// Auth slice
 		auth: AuthState;
@@ -41,13 +105,20 @@ declare module "@bytebank/root/bytebank-store" {
 		transactions: TransactionState;
 		fetchTransactions: (accountId: string) => Promise<void>;
 		createTransaction: (data: CreateTransactionRequest) => Promise<void>;
-		setFilters: (filters: Partial<TransactionFilters>) => void;
+		setFilters: (filters: any) => void;
 		clearFilters: () => void;
 		setPage: (page: number) => void;
 
 		// Account slice
 		account: AccountState;
 		fetchAccount: () => Promise<void>;
+		selectAccount: (account: Account) => void;
+		clearAccount: () => void;
+	};
+
+	const useStore: UseBoundStore<StoreApi<Store>>;
+	export default useStore;
+}
 		selectAccount: (accountId: string) => void;
 		updateBalance: (balance: number) => void;
 		clearAccount: () => void;

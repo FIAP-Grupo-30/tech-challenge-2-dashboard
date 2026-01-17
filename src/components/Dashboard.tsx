@@ -15,7 +15,8 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import { ENV } from "../config/env";
+import useStore from "@bytebank/root/bytebank-store";
+import { useAuth } from "../hooks/useAuth";
 
 interface Transaction {
 	id: string;
@@ -37,52 +38,79 @@ const COLORS = [
 ];
 
 const Dashboard: React.FC = () => {
-	const [transactions, setTransactions] = useState<Transaction[]>([]);
-	const [userName, setUserName] = useState("Usuário");
-	const [isLoading, setIsLoading] = useState(true);
+	console.log('🎯 [Dashboard] COMPONENTE MONTADO - INÍCIO');
+	
+	const { user, accountId, isAuthenticated } = useAuth();
+	const [isHydrated, setIsHydrated] = useState(false);
+	
+	console.log('🎯 [Dashboard] Estado inicial:', { 
+		user, 
+		accountId, 
+		isAuthenticated,
+		userName: user?.username 
+	});
+	
+	// Acessar dados e ações da store
+	const transactionsState = useStore((state) => state.transactions);
+	const accountState = useStore((state) => state.account);
+	const fetchAccount = useStore((state) => state.fetchAccount);
+	const fetchTransactions = useStore((state) => state.fetchTransactions);
+	
+	console.log('🎯 [Dashboard] Store data:', {
+		transactionsState,
+		accountState,
+		transactionsCount: transactionsState?.transactions?.length || 0
+	});
 
+	// Aguarda a hidratação do Zustand (persist)
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const token = localStorage.getItem("bytebank_token");
-				if (!token) {
-					setIsLoading(false);
-					return;
-				}
+		const timer = setTimeout(() => {
+			setIsHydrated(true);
+		}, 100);
+		return () => clearTimeout(timer);
+	}, []);
 
-				// Decode username from token
-				try {
-					const payload = JSON.parse(atob(token.split(".")[1]));
-					setUserName(payload.username || "Usuário");
-				} catch {}
+	// Buscar dados ao montar (se autenticado)
+	useEffect(() => {
+		if (isAuthenticated && !accountState?.selectedAccount && isHydrated) {
+			fetchAccount();
+		}
+	}, [isAuthenticated, fetchAccount, accountState?.selectedAccount, isHydrated]);
 
-				const apiBase = ENV.API_BASE_URL;
-				const accRes = await fetch(`${apiBase}/account`, {
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				const accData = await accRes.json();
-				const accId = accData.result?.account?.[0]?.id;
+	// Buscar transações quando tiver accountId
+	useEffect(() => {
+		console.log('[Dashboard] accountId:', accountId);
+		console.log('[Dashboard] transactionsState:', transactionsState);
+		if (accountId) {
+			console.log('[Dashboard] Chamando fetchTransactions com accountId:', accountId);
+			fetchTransactions(accountId);
+		}
+	}, [accountId, fetchTransactions]);
 
-				if (accId) {
-					const stmtRes = await fetch(`${apiBase}/account/${accId}/statement`, {
-						headers: { Authorization: `Bearer ${token}` },
-					});
-					const stmtData = await stmtRes.json();
-					setTransactions(stmtData.result?.transactions || []);
-				}
-			} catch (e) {
-				console.error(e);
-			} finally {
-				setIsLoading(false);
+	// Escutar eventos de transação criada
+	useEffect(() => {
+		const handleRefresh = () => {
+			console.log('[Dashboard] Evento recebido, recarregando transações');
+			if (accountId) {
+				fetchTransactions(accountId);
 			}
 		};
-		fetchData();
-
-		const handleRefresh = () => fetchData();
-		window.addEventListener("bytebank-event", handleRefresh as any);
+		window.addEventListener("mfe:transaction-created", handleRefresh as any);
 		return () =>
-			window.removeEventListener("bytebank-event", handleRefresh as any);
-	}, []);
+			window.removeEventListener("mfe:transaction-created", handleRefresh as any);
+	}, [accountId, fetchTransactions]);
+
+	// Usar transações da store
+	const transactions = transactionsState?.transactions || [];
+	const userName = user?.username || "Usuário";
+	
+	console.log('[Dashboard] Renderizando com:', {
+		accountId,
+		isAuthenticated,
+		transactionsCount: transactions.length,
+		transactions: transactions.slice(0, 3), // primeiras 3 para debug
+		transactionsState
+	});
 
 	const summary = useMemo(() => {
 		return transactions.reduce(
@@ -137,11 +165,30 @@ const Dashboard: React.FC = () => {
 			style: "currency",
 			currency: "BRL",
 		}).format(v);
-
-	if (isLoading) {
+	// Aguarda hidratação antes de verificar
+	if (!isHydrated) {
 		return (
 			<div className="bg-gray-100 flex items-center justify-center">
 				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#47A138]"></div>
+			</div>
+		);
+	}
+	// Loading state
+	if (transactionsState?.isLoading || accountState?.isLoading) {
+		return (
+			<div className="bg-gray-100 flex items-center justify-center">
+				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#47A138]"></div>
+			</div>
+		);
+	}
+
+	// Não autenticado
+	if (!isAuthenticated) {
+		return (
+			<div className="bg-gray-100 flex items-center justify-center p-8">
+				<div className="text-center">
+					<p className="text-gray-600">Faça login para acessar o dashboard</p>
+				</div>
 			</div>
 		);
 	}
