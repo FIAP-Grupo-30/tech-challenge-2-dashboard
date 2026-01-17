@@ -1,41 +1,43 @@
 {
-  "name": "@bytebank/dashboard",
-  "version": "1.0.0",
-  "description": "Microfrontend de dashboard com gráficos e análises",
-  "type": "module",
-  "engines": {
-    "node": ">=24.12.0"
-  },
-  "scripts": {
-    "dev": "vite --open",
-    "federation": "concurrently \"npm run build:watch\" \"npm run preview\"",
-    "build": "vite build",
-    "build:watch": "vite build --watch",
-    "preview": "vite preview",
-    "lint": "biome lint .",
-    "format": "biome format --write .",
-    "check": "biome check ."
-  },
-  "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react-router-dom": "^7.12.0",
-    "recharts": "^2.12.0",
-    "zustand": "^5.0.10"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.11",
-    "@originjs/vite-plugin-federation": "^1.4.1",
-    "@tailwindcss/vite": "^4.1.18",
-    "@types/react": "^19.2.8",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.2",
-    "concurrently": "^9.2.1",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "zod": "^4.3.5"
-  },
-  "author": "FIAP Grupo 30",
-  "license": "MIT"
+	"name": "@bytebank/dashboard",
+	"version": "1.0.0",
+	"description": "Microfrontend de dashboard com gráficos e análises",
+	"type": "module",
+	"engines": {
+		"node": ">=24.12.0"
+	},
+	"scripts": {
+		"dev": "cross-env vite --open",
+		"federation": "concurrently \"npm run build:watch\" \"npm run preview\"",
+		"build": "vite build",
+		"build:watch": "cross-env vite build --watch",
+		"preview": "vite preview",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"check": "biome check ."
+	},
+	"dependencies": {
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3",
+		"react-router-dom": "^7.12.0",
+		"recharts": "^2.12.0",
+		"zustand": "^5.0.10"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@originjs/vite-plugin-federation": "^1.4.1",
+		"@tailwindcss/vite": "^4.1.18",
+		"@types/node": "^25.0.9",
+		"@types/react": "^19.2.8",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.2",
+		"concurrently": "^9.2.1",
+		"cross-env": "^10.1.0",
+		"tailwindcss": "^4.1.18",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"zod": "^4.3.5"
+	},
+	"author": "FIAP Grupo 30",
+	"license": "MIT"
 }
