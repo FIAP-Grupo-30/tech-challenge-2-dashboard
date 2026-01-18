@@ -100,6 +100,70 @@ const account = useStore((state) => state.account);
 }
 ```
 
+### Uso de Prefixos Tailwind CSS
+
+⚠️ **IMPORTANTE**: Este projeto utiliza o prefixo `dash:` para todas as classes Tailwind CSS para evitar conflitos com outros microfrontends.
+
+#### Configuração
+
+O prefixo é configurado no arquivo `src/globals.css`:
+
+```css
+@import "tailwindcss" prefix(dash);
+```
+
+#### Como Usar Classes Tailwind
+
+Todas as classes Tailwind usadas diretamente no JSX devem incluir o prefixo `dash:`:
+
+```tsx
+// ✅ CORRETO - Com prefixo
+<div className="dash:flex dash:items-center dash:justify-center">
+  <p className="dash:text-2xl dash:font-bold dash:text-white">Conteúdo</p>
+</div>
+
+// ❌ ERRADO - Sem prefixo (pode causar conflitos)
+<div className="flex items-center justify-center">
+  <p className="text-2xl font-bold text-white">Conteúdo</p>
+</div>
+```
+
+#### Variantes e Responsividade
+
+Para variantes como `hover:`, `focus:`, e breakpoints responsivos (`md:`, `lg:`, etc.), use o formato `[prefixo]:[variante]:[classe]`:
+
+```tsx
+// Hover
+<button className="dash:bg-green-500 dash:hover:bg-green-600">
+
+// Responsividade
+<div className="dash:flex dash:flex-col dash:md:flex-row">
+
+// Classes arbitrárias
+<div className="dash:bg-[#47A138] dash:w-[170px]">
+```
+
+#### No @apply (globals.css)
+
+Quando usar `@apply` dentro de `@layer components`, use o formato `[prefixo]:[variante]:[classe]`:
+
+```css
+@layer components {
+  .minha-classe {
+    @apply dash:bg-white dash:hover:bg-gray-100 dash:md:flex;
+  }
+}
+```
+
+#### Classes Customizadas (NÃO precisam de prefixo)
+
+Classes customizadas definidas em `@layer components` (como `.btn-bytebank-primary`) **NÃO** precisam de prefixo, pois já são nomes únicos:
+
+```tsx
+// ✅ CORRETO - Classe customizada sem prefixo
+<button className="btn-bytebank-primary">Clique aqui</button>
+```
+
 ## 🛠️ Comandos
 
 ### Desenvolvimento

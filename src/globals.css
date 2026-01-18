@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" prefix(dash);
 
 /* ==========================================
    BYTEBANK DESIGN SYSTEM - FASE 2
@@ -18,43 +18,43 @@
 /* Botões ByteBank - Preservados da Fase 1 */
 @layer components {
   .btn-bytebank-primary {
-    @apply inline-flex justify-center items-center h-11 text-center rounded-lg bg-[#47A138] hover:bg-white min-w-[180px] text-base font-semibold text-white hover:text-[#47A138] transition duration-300 border-2 border-[#47A138] px-6;
+    @apply dash:inline-flex dash:justify-center dash:items-center dash:h-11 dash:text-center dash:rounded-lg dash:bg-[#47A138] dash:hover:bg-white dash:min-w-[180px] dash:text-base dash:font-semibold dash:text-white dash:hover:text-[#47A138] dash:transition dash:duration-300 dash:border-2 dash:border-[#47A138] dash:px-6;
   }
 
   .btn-bytebank-secondary {
-    @apply inline-flex justify-center items-center h-11 text-center rounded-lg bg-transparent hover:bg-[#47A138] border-[3px] border-[#47A138] min-w-[180px] text-[#47A138] hover:text-white text-base font-semibold transition duration-300 px-6;
+    @apply dash:inline-flex dash:justify-center dash:items-center dash:h-11 dash:text-center dash:rounded-lg dash:bg-transparent dash:hover:bg-[#47A138] dash:border-[3px] dash:border-[#47A138] dash:min-w-[180px] dash:text-[#47A138] dash:hover:text-white dash:text-base dash:font-semibold dash:transition dash:duration-300 dash:px-6;
   }
 
   .btn-bytebank-dark {
-    @apply inline-flex justify-center items-center h-14 text-center rounded-lg bg-black hover:bg-transparent border-[3px] border-black w-full font-semibold text-white text-lg hover:text-black transition duration-300;
+    @apply dash:inline-flex dash:justify-center dash:items-center dash:h-14 dash:text-center dash:rounded-lg dash:bg-black dash:hover:bg-transparent dash:border-[3px] dash:border-black dash:w-full dash:font-semibold dash:text-white dash:text-lg dash:hover:text-black dash:transition dash:duration-300;
   }
 
   .input-bytebank {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#47A138] focus:border-transparent;
+    @apply dash:w-full dash:px-3 dash:py-2 dash:border dash:border-gray-300 dash:rounded-md dash:focus:outline-none dash:focus:ring-2 dash:focus:ring-[#47A138] dash:focus:border-transparent;
   }
 
   .card-bytebank {
-    @apply bg-[#CCCCCC] p-7 rounded-xl;
+    @apply dash:bg-[#CCCCCC] dash:p-7 dash:rounded-xl;
   }
 
   .card-bytebank-white {
-    @apply bg-white p-4 rounded-lg shadow-sm;
+    @apply dash:bg-white dash:p-4 dash:rounded-lg dash:shadow-sm;
   }
 
   .menu-link {
-    @apply text-lg font-medium text-[#666666] hover:bg-[#e4e1e1] p-1.5 transition duration-200 rounded;
+    @apply dash:text-lg dash:font-medium dash:text-[#666666] dash:hover:bg-[#e4e1e1] dash:p-1.5 dash:transition dash:duration-200 dash:rounded;
   }
 
   .transaction-item {
-    @apply flex items-center gap-4 p-4 bg-white rounded-lg border-l-4 transition-all hover:shadow-md;
+    @apply dash:flex dash:items-center dash:gap-4 dash:p-4 dash:bg-white dash:rounded-lg dash:border-l-4 dash:transition-all dash:hover:shadow-md;
   }
 
   .transaction-item-credit {
-    @apply border-l-green-500;
+    @apply dash:border-l-green-500;
   }
 
   .transaction-item-debit {
-    @apply border-l-red-500;
+    @apply dash:border-l-red-500;
   }
 }
 

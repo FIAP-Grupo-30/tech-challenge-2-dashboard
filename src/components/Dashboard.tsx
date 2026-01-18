@@ -194,16 +194,16 @@ const Dashboard: React.FC = () => {
 	// Aguarda hidratação antes de verificar
 	if (!isHydrated) {
 		return (
-			<div className="bg-gray-100 flex items-center justify-center">
-				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#47A138]"></div>
+			<div className="dash:bg-gray-100 dash:flex dash:items-center dash:justify-center">
+				<div className="dash:animate-spin dash:rounded-full dash:h-12 dash:w-12 dash:border-t-2 dash:border-b-2 dash:border-[#47A138]"></div>
 			</div>
 		);
 	}
 	// Loading state
 	if (transactionsState?.isLoading || accountState?.isLoading) {
 		return (
-			<div className="bg-gray-100 flex items-center justify-center">
-				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#47A138]"></div>
+			<div className="dash:bg-gray-100 dash:flex dash:items-center dash:justify-center">
+				<div className="dash:animate-spin dash:rounded-full dash:h-12 dash:w-12 dash:border-t-2 dash:border-b-2 dash:border-[#47A138]"></div>
 			</div>
 		);
 	}
@@ -211,9 +211,9 @@ const Dashboard: React.FC = () => {
 	// Não autenticado
 	if (!isAuthenticated) {
 		return (
-			<div className="bg-gray-100 flex items-center justify-center p-8">
-				<div className="text-center">
-					<p className="text-gray-600">Faça login para acessar o dashboard</p>
+			<div className="dash:bg-gray-100 dash:flex dash:items-center dash:justify-center dash:p-8">
+				<div className="dash:text-center">
+					<p className="dash:text-gray-600">Faça login para acessar o dashboard</p>
 				</div>
 			</div>
 		);
@@ -221,61 +221,61 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<div>
-			<main className="mx-auto">
+			<main className="dash:mx-auto">
 				{/* Saudação */}
-				<div className="mb-8">
-					<h2 className="text-2xl font-semibold text-black">
+				<div className="dash:mb-8">
+					<h2 className="dash:text-2xl dash:font-semibold dash:text-black">
 						Olá, {userName}! 👋
 					</h2>
-					<p className="text-gray-600">Aqui está o resumo das suas finanças</p>
+					<p className="dash:text-gray-600">Aqui está o resumo das suas finanças</p>
 				</div>
 
 				{/* Cards de resumo */}
-				<div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+				<div className="dash:grid dash:grid-cols-2 dash:lg:grid-cols-4 dash:gap-8 dash:mb-10">
 					{[
 						{
 							label: "Receitas",
 							value: summary.income,
 							icon: "📈",
-							color: "text-green-600",
-							bg: "bg-green-50",
+							color: "dash:text-green-600",
+							bg: "dash:bg-green-50",
 						},
 						{
 							label: "Despesas",
 							value: summary.expenses,
 							icon: "📉",
-							color: "text-red-600",
-							bg: "bg-red-50",
+							color: "dash:text-red-600",
+							bg: "dash:bg-red-50",
 						},
 						{
 							label: "Saldo",
 							value: summary.balance,
 							icon: "💰",
-							color: summary.balance >= 0 ? "text-blue-600" : "text-orange-600",
-							bg: "bg-blue-50",
+							color: summary.balance >= 0 ? "dash:text-blue-600" : "dash:text-orange-600",
+							bg: "dash:bg-blue-50",
 						},
 						{
 							label: "Transações",
 							value: summary.count,
 							icon: "📊",
-							color: "text-purple-600",
-							bg: "bg-purple-50",
+							color: "dash:text-purple-600",
+							bg: "dash:bg-purple-50",
 							isCurrency: false,
 						},
 					].map((card) => (
 						<div
 							key={card.label}
-							className="bg-white rounded-[5px] border border-solid border-[#ccc] p-4 shadow-sm"
+							className="dash:bg-white dash:rounded-[5px] dash:border dash:border-solid dash:border-[#ccc] dash:p-4 dash:shadow-sm"
 						>
-							<div className="flex items-center gap-3">
+							<div className="dash:flex dash:items-center dash:gap-3">
 								<div
-									className={`w-12 h-12 ${card.bg} rounded-lg flex items-center justify-center text-xl`}
+									className={`dash:w-12 dash:h-12 ${card.bg} dash:rounded-lg dash:flex dash:items-center dash:justify-center dash:text-xl`}
 								>
 									{card.icon}
 								</div>
 								<div>
-									<p className="text-sm text-gray-500">{card.label}</p>
-									<p className={`text-xl font-semibold ${card.color}`}>
+									<p className="dash:text-sm dash:text-gray-500">{card.label}</p>
+									<p className={`dash:text-xl dash:font-semibold ${card.color}`}>
 										{card.isCurrency === false
 											? card.value
 											: formatCurrency(card.value)}
@@ -287,10 +287,10 @@ const Dashboard: React.FC = () => {
 				</div>
 
 				{/* Gráficos */}
-				<div className="grid lg:grid-cols-2 gap-8 mb-10">
+				<div className="dash:grid dash:lg:grid-cols-2 dash:gap-8 dash:mb-10">
 					{/* Evolução */}
-					<div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-						<h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+					<div className="dash:rounded-[5px] dash:border dash:border-solid dash:border-[#ccc] dash:p-6 dash:shadow-sm">
+						<h3 className="dash:text-[20px] dash:font-semibold dash:text-black dash:mb-8 dash:text-center">
 							Evolução Financeira
 						</h3>
 						<ResponsiveContainer width="100%" height={300}>
@@ -345,12 +345,12 @@ const Dashboard: React.FC = () => {
 					</div>
 
 					{/* Categorias */}
-					<div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-						<h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+					<div className="dash:rounded-[5px] dash:border dash:border-solid dash:border-[#ccc] dash:p-6 dash:shadow-sm">
+						<h3 className="dash:text-[20px] dash:font-semibold dash:text-black dash:mb-8 dash:text-center">
 							Despesas por Categoria
 						</h3>
-						<div className="flex flex-col lg:flex-row items-center gap-6">
-							<div className="w-full lg:w-1/2">
+						<div className="dash:flex dash:flex-col dash:lg:flex-row dash:items-center dash:gap-6">
+							<div className="dash:w-full dash:lg:w-1/2">
 								<ResponsiveContainer width="100%" height={250}>
 									<PieChart>
 										<Pie
@@ -375,17 +375,17 @@ const Dashboard: React.FC = () => {
 									</PieChart>
 								</ResponsiveContainer>
 							</div>
-							<div className="w-full lg:w-1/2 space-y-2">
+							<div className="dash:w-full dash:lg:w-1/2 dash:space-y-2">
 								{categoryData.slice(0, 5).map((item, i) => (
-									<div key={item.name} className="flex items-center gap-3">
+									<div key={item.name} className="dash:flex dash:items-center dash:gap-3">
 										<div
-											className="w-3 h-3 rounded-full"
+											className="dash:w-3 dash:h-3 dash:rounded-full"
 											style={{ backgroundColor: COLORS[i % COLORS.length] }}
 										/>
-										<span className="flex-1 text-sm text-gray-600 capitalize">
+										<span className="dash:flex-1 dash:text-sm dash:text-gray-600 dash:capitalize">
 											{item.name}
 										</span>
-										<span className="text-sm font-medium">
+										<span className="dash:text-sm dash:font-medium">
 											{formatCurrency(item.value)}
 										</span>
 									</div>
@@ -396,8 +396,8 @@ const Dashboard: React.FC = () => {
 				</div>
 
 				{/* Comparativo mensal */}
-				<div className="rounded-[5px] border border-solid border-[#ccc] p-6 shadow-sm">
-					<h3 className="text-[20px] font-semibold text-black mb-8 text-center">
+				<div className="dash:rounded-[5px] dash:border dash:border-solid dash:border-[#ccc] dash:p-6 dash:shadow-sm">
+					<h3 className="dash:text-[20px] dash:font-semibold dash:text-black dash:mb-8 dash:text-center">
 						Comparativo Mensal
 					</h3>
 					<ResponsiveContainer width="100%" height={300}>
