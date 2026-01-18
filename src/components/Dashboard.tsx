@@ -42,6 +42,8 @@ const Dashboard: React.FC = () => {
 	
 	const { user, accountId, isAuthenticated } = useAuth();
 	const [isHydrated, setIsHydrated] = useState(false);
+	const [isLoadingData, setIsLoadingData] = useState(false);
+	const [dataLoaded, setDataLoaded] = useState(false);
 	
 	console.log('🎯 [Dashboard] Estado inicial:', { 
 		user, 
@@ -70,22 +72,46 @@ const Dashboard: React.FC = () => {
 		return () => clearTimeout(timer);
 	}, []);
 
-	// Buscar dados ao montar (se autenticado)
+	// Buscar dados ao montar - consolidado para evitar timing issues
 	useEffect(() => {
-		if (isAuthenticated && !accountState?.selectedAccount && isHydrated) {
-			fetchAccount();
-		}
-	}, [isAuthenticated, fetchAccount, accountState?.selectedAccount, isHydrated]);
+		const loadData = async () => {
+			if (!isAuthenticated || !isHydrated || isLoadingData || dataLoaded) return;
+			
+			setIsLoadingData(true);
+			console.log('[Dashboard] Iniciando carregamento de dados...');
+			
+			try {
+				// Sempre busca account primeiro para garantir selectedAccount
+				if (!accountState?.selectedAccount) {
+					console.log('[Dashboard] Carregando account...');
+					await fetchAccount();
+				}
+			} catch (error) {
+				console.error('[Dashboard] Erro ao carregar account:', error);
+			} finally {
+				setIsLoadingData(false);
+			}
+		};
+		
+		loadData();
+	}, [isAuthenticated, isHydrated, accountState?.selectedAccount, fetchAccount, isLoadingData, dataLoaded]);
 
-	// Buscar transações quando tiver accountId
+	// Carrega transactions quando selectedAccount estiver disponível
 	useEffect(() => {
-		console.log('[Dashboard] accountId:', accountId);
-		console.log('[Dashboard] transactionsState:', transactionsState);
-		if (accountId) {
-			console.log('[Dashboard] Chamando fetchTransactions com accountId:', accountId);
-			fetchTransactions(accountId);
-		}
-	}, [accountId, fetchTransactions]);
+		const loadTransactions = async () => {
+			const currentAccountId = accountState?.selectedAccount?.id;
+			if (currentAccountId && isHydrated && !dataLoaded) {
+				console.log('[Dashboard] Carregando transactions para accountId:', currentAccountId);
+				try {
+					await fetchTransactions(currentAccountId);
+					setDataLoaded(true);
+				} catch (error) {
+					console.error('[Dashboard] Erro ao carregar transactions:', error);
+				}
+			}
+		};
+		loadTransactions();
+	}, [accountState?.selectedAccount?.id, isHydrated, fetchTransactions, dataLoaded]);
 
 	// Escutar eventos de transação criada
 	useEffect(() => {
