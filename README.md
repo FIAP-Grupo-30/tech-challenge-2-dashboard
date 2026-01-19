@@ -240,10 +240,9 @@ asdf install nodejs 24.12.0
 asdf local nodejs 24.12.0
 ```
 
-### Plataforma de hospedagem
+## 🛠️ Plataforma de hospedagem
 
 Vercel - https://vercel.com/
-
 
 ## 👥 Equipe
 
